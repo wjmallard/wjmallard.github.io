@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .wrap {
+      /* Rail geometry lives here so the jump-nav column and anything that has to
+         line up with the entry column (the status line) cannot drift apart. Both
+         are in rem, not em: em would resolve against each consumer's own
+         font-size, and .filter-status sets its own -- which silently shortened
+         the indent and left the status line a few px adrift of the entries. */
+      --rail: 11rem;
+      --rail-gap: 2.5rem;
+      max-width: 60em;
+      margin: 0 auto;
+      padding: 1em 0 14vh;
+    }
+    .back {
+      margin-bottom: 1.25rem;
+    }
+    .title {
+      color: #222;
+      font-size: 2.2em;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .sub {
+      font-size: 0.85em;
+      color: #999;
+      margin-bottom: 1.5em;
+    }
+
+    /* Scholar-credited metrics line: the one number kept live off-site. */
+    .metrics {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.4em 1.6em;
+      margin-bottom: 0.75rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.8em;
+    }
+    .metrics .m-val {
+      color: #222;
+      font-weight: 600;
+      font-size: 1.15em;
+    }
+    .metrics .m-lab {
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.85em;
+    }
+    .metrics .m-via {
+      color: #bbb;
+      margin-left: auto;
+    }
+
+    /* Scholar link: the accent colour and its own line carry it, not a button and
+       not weight. The rule sits under the words only, so the out-arrow floats free
+       of the underline. */
+    .scholar-cta {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35em;
+      margin-bottom: 1.5rem;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.85em;
+      letter-spacing: 0.03em;
+      color: #3d5a80;
+    }
+    .scholar-cta .cta-label {
+      border-bottom: 1px solid #c8d5e8;
+    }
+    .scholar-cta:hover,
+    .scholar-cta:focus {
+      color: #222;
+    }
+    .scholar-cta:hover .cta-label,
+    .scholar-cta:focus .cta-label {
+      border-bottom-color: #222;
+    }
+    .scholar-cta .cta-arrow {
+      font-size: 0.95em;
+      line-height: 1;
+    }
+
+    /* Filter chips: two rows (era + skill) */
+    .filters {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55em;
+      padding: 0.85em 1em;
+      background: #f4f4f4;
+      border: 1px solid #ececec;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .filters-label {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.72em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #999;
+      margin-right: 0.3em;
+      min-width: 3em;
+    }
+    .chip {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.76em;
+      color: #666;
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      padding: 0.3em 0.85em;
+      cursor: pointer;
+    }
+    .chip:hover {
+      border-color: #999;
+      color: #222;
+    }
+    .chip.active {
+      background: #3d5a80;
+      color: #fafafa;
+      border-color: #3d5a80;
+    }
+    /* Always on: carries the entry count. The matched-filter labels and the clear
+       button appear only once a filter is active -- on mobile, where the chips
+       hide, they are the only filter cue. */
+    .filter-status {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.6em;
+      /* Indented past the jump-nav rail so it starts at the entry column, not at
+         "Contents". */
+      margin: 0 0 1rem calc(var(--rail) + var(--rail-gap));
+      font-size: 0.85em;
+      color: #666;
+    }
+    .filter-count {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.9em;
+      letter-spacing: 0.04em;
+      color: #999;
+    }
+    .filter-status-text,
+    .filter-clear {
+      display: none;
+    }
+    .filter-status.on .filter-status-text,
+    .filter-status.on .filter-clear {
+      display: inline;
+    }
+    .filter-status.on .filter-status-text::before {
+      content: "·";
+      color: #ccc;
+      margin-right: 0.6em;
+    }
+    .filter-clear {
+      font: inherit;
+      color: #3d5a80;
+      background: none;
+      border: none;
+      border-bottom: 1px solid currentColor;
+      padding: 0;
+      cursor: pointer;
+    }
+    .filter-clear:hover {
+      color: #222;
+    }
+
+    /* Section body */
+    .section-body {
+      padding: 0.75em 0 2.25em;
+    }
+
+    /* Section jump-nav: left rail on desktop, hidden on mobile */
+    .layout {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--rail-gap);
+    }
+    .toc {
+      flex: 0 0 var(--rail);
+      /* Flex items default to min-width:auto, which refuses to go narrower than
+         the longest unbreakable word -- so a long section name silently widened
+         this column past its basis, and hiding sections via the filter changed
+         which word was longest, resizing the rail (and with it the entry column)
+         on every chip click. min-width:0 makes the basis authoritative. */
+      min-width: 0;
+      position: sticky;
+      top: 2em;
+      font-size: 0.9em;
+    }
+    .toc-label {
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.85em;
+      margin-bottom: 0.8em;
+    }
+    .toc ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-left: 1px solid #e6e6e6;
+    }
+    .toc a {
+      display: block;
+      /* Belt and braces: with min-width pinned, an over-long name would otherwise
+         overhang into the gutter rather than widening the column. */
+      overflow-wrap: break-word;
+      padding: 0.35em 0 0.35em 1em;
+      margin-left: -1px;
+      border-left: 1px solid transparent;
+      color: #888;
+      line-height: 1.3;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .toc a:hover {
+      color: #222;
+    }
+    .toc a.active {
+      color: #222;
+      border-left-color: #222;
+    }
+    .content {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 44em;
+    }
+
+    .pub-section {
+      scroll-margin-top: 1.5em;
+    }
+    .pub-section .s-head {
+      font-weight: normal;
+      font-size: 1em;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.2em 0.7em;
+      margin: 0 -0.5em;
+      padding: 0.25em 0.5em;
+      background: #e9eff9;
+      border: 1px solid #d5e0f1;
+    }
+    .pub-section .s-title {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.15em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #000;
+    }
+
+    @media (max-width: 720px) {
+      .filters,
+      .toc {
+        display: none;
+      }
+      .layout {
+        display: block;
+      }
+      .content {
+        max-width: none;
+      }
+      /* No rail to clear once the jump-nav is hidden. */
+      .filter-status {
+        margin-left: 0;
+      }
+    }
+
+    .pub {
+      padding-bottom: 1em;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 1em;
+    }
+    .pub:last-child,
+    .pub.no-divider {
+      padding-bottom: 0;
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .pub-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.2em 0.8em;
+    }
+    .pub h3 {
+      color: #222;
+      font-size: 1.05em;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 0 0 0.35em;
+      flex: 1 1 20em;
+    }
+    .pub h3 a {
+      color: #222;
+    }
+    .pub h3 a:hover {
+      color: #000;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: #bbb;
+    }
+    .pub-year {
+      margin-left: auto;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.78em;
+      color: #aaa;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .pub-authors {
+      font-size: 0.85em;
+      line-height: 1.6;
+      color: #666;
+      margin: 0 0 0.2em;
+    }
+    .pub-authors strong {
+      color: #222;
+      font-weight: 600;
+    }
+    .pub-venue {
+      font-size: 0.85em;
+      color: #888;
+      margin: 0 0 0.5em;
+    }
+    .meta {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.2em 1.25em;
+      font-size: 0.78em;
+      color: #999;
+      line-height: 1.9;
+    }
+    /* The author-position badge — the reason this page exists alongside Scholar. */
+    .pub-role {
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.92em;
+      color: #3d5a80;
+      letter-spacing: 0.02em;
+    }
+    .meta .links a {
+      color: #444;
+      border-bottom: 1px solid #ccc;
+    }
+    .meta .links a:hover {
+      color: #222;
+      border-bottom-color: #222;
+    }
+    .meta .links a:not(:last-child) {
+      margin-right: 1.25em;
+    }
+  </style>
+  <script data-goatcounter="https://stats.wjmallard.net/count"
+          async src="//stats.wjmallard.net/count.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← William Mallard</a>
+    <div class="title">Publications</div>
+
+    <a class="scholar-cta" href="https://scholar.google.com/citations?user=nspsptcAAAAJ"><span class="cta-label">Google Scholar profile</span><span class="cta-arrow">&#8599;</span></a>
+
+    <div class="filters">
+      <div class="filter-row">
+        <span class="filters-label">Era</span>
+        <button class="chip active" data-dim="era" data-val="all">All</button>
+        <button class="chip" data-dim="era" data-val="phd">PhD</button>
+        <button class="chip" data-dim="era" data-val="broad">Broad</button>
+        <button class="chip" data-dim="era" data-val="berkeley">Berkeley</button>
+        <button class="chip" data-dim="era" data-val="undergrad">Undergrad</button>
+      </div>
+      <div class="filter-row">
+        <span class="filters-label">Skill</span>
+        <button class="chip active" data-dim="skill" data-val="all">All</button>
+        <button class="chip" data-dim="skill" data-val="structbio">Structural Biology</button>
+        <button class="chip" data-dim="skill" data-val="genomics">Genomics</button>
+        <button class="chip" data-dim="skill" data-val="bioinfo">Bioinformatics</button>
+        <button class="chip" data-dim="skill" data-val="microscopy">Microscopy</button>
+        <button class="chip" data-dim="skill" data-val="signal">Signal Processing</button>
+        <button class="chip" data-dim="skill" data-val="instrument">Instrumentation</button>
+        <button class="chip" data-dim="skill" data-val="systems">Systems &amp; Firmware</button>
+        <button class="chip" data-dim="skill" data-val="hpc">HPC</button>
+        <button class="chip" data-dim="skill" data-val="cv">Computer Vision</button>
+      </div>
+    </div>
+
+    <div class="filter-status">
+      <span class="filter-count"></span>
+      <span class="filter-status-text"></span>
+      <button class="filter-clear" type="button">show all</button>
+    </div>
+
+    <div class="layout">
+      <nav class="toc">
+        <div class="toc-label">Contents</div>
+        <ul>
+        <li><a href="#bacterial-cell-division" data-sec="bacterial-cell-division">Bacterial Cell Division</a></li>
+        <li><a href="#gene-regulation" data-sec="gene-regulation">Gene Regulation</a></li>
+        <li><a href="#stem-cells-epigenomics" data-sec="stem-cells-epigenomics">Stem Cells &amp; Epigenomics</a></li>
+        <li><a href="#long-noncoding-rnas" data-sec="long-noncoding-rnas">Long Noncoding RNAs</a></li>
+        <li><a href="#cancer-genomics" data-sec="cancer-genomics">Cancer Genomics</a></li>
+        <li><a href="#technology-development" data-sec="technology-development">Technology Development</a></li>
+        <li><a href="#physics-astronomy-instrumentation" data-sec="physics-astronomy-instrumentation">Physics &amp; Astronomy Instrumentation</a></li>
+        <li><a href="#conference-proceedings-abstracts" data-sec="conference-proceedings-abstracts">Conference Proceedings &amp; Abstracts</a></li>
+        </ul>
+      </nav>
+      <div class="content">
+
+    <section class="pub-section" id="bacterial-cell-division">
+      <h2 class="s-head"><span class="s-title">Bacterial Cell Division</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="ftsz-phosphorylation-modulates-tail-core-binding-to-tune-cell-division-in-bacillus-subtilis" data-themes="structbio bioinfo microscopy hpc cv" data-era="phd">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1371/journal.pone.0337820">FtsZ phosphorylation modulates tail-core binding to tune cell division in Bacillus subtilis</a></h3>
+            <span class="pub-year">2025</span>
+          </div>
+          <p class="pub-authors"><strong>W.J. Mallard</strong>, V.V. Pham</p>
+          <p class="pub-venue"><em>PLOS ONE</em> 20(12), e0337820</p>
+          <div class="meta">
+            <span class="pub-role">First and co-corresponding author</span>
+            <div class="links"><a href="https://doi.org/10.1371/journal.pone.0337820">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="ftsz-phd-thesis" data-themes="structbio bioinfo microscopy hpc cv" data-era="phd">
+          <div class="pub-head">
+            <h3>FtsZ phosphorylation modulates tail-core binding to tune cell division in Bacillus subtilis</h3>
+            <span class="pub-year">2025</span>
+          </div>
+          <p class="pub-authors"><strong>W.J. Mallard</strong></p>
+          <p class="pub-venue"><em>PhD thesis, Harvard University</em> ProQuest 32042133</p>
+          <div class="meta">
+            <span class="pub-role">Sole author</span>
+            <div class="links"><a href="https://www.proquest.com/docview/3216865596">ProQuest</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="gene-regulation">
+      <h2 class="s-head"><span class="s-title">Gene Regulation</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="common-variants-in-signaling-transcription-factor-binding-sites-drive-phenotypic-variability-in-red-blood-cell-traits" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/s41588-020-00738-2">Common variants in signaling transcription-factor-binding sites drive phenotypic variability in red blood cell traits</a></h3>
+            <span class="pub-year">2020</span>
+          </div>
+          <p class="pub-authors">A. Choudhuri, E. Trompouki, B.J. Abraham &hellip; <strong>W. Mallard</strong> &hellip; L.I. Zon</p>
+          <p class="pub-venue"><em>Nature Genetics</em> 52(12), 1333-1345</p>
+          <div class="meta">
+            <span class="pub-role">Author 6 of 33</span>
+            <div class="links"><a href="https://doi.org/10.1038/s41588-020-00738-2">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="a-distant-trophoblast-specific-enhancer-controls-hla-g-expression-at-the-maternal-fetal-interface" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1073/pnas.1602886113">A distant trophoblast-specific enhancer controls HLA-G expression at the maternal-fetal interface</a></h3>
+            <span class="pub-year">2016</span>
+          </div>
+          <p class="pub-authors">L.M.R. Ferreira, T.B. Meissner, T.S. Mikkelsen, <strong>W. Mallard</strong> &hellip; J.L. Strominger</p>
+          <p class="pub-venue"><em>PNAS</em> 113(19), 5364-5369</p>
+          <div class="meta">
+            <span class="pub-role">Author 4 of 13</span>
+            <div class="links"><a href="https://doi.org/10.1073/pnas.1602886113">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="dissecting-neural-differentiation-regulatory-networks-through-epigenetic-footprinting" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/nature13990">Dissecting neural differentiation regulatory networks through epigenetic footprinting</a></h3>
+            <span class="pub-year">2015</span>
+          </div>
+          <p class="pub-authors">M.J. Ziller, R. Edri, Y. Yaffe &hellip; <strong>W. Mallard</strong> &hellip; A. Meissner</p>
+          <p class="pub-venue"><em>Nature</em> 518(7539), 355-359</p>
+          <div class="meta">
+            <span class="pub-role">Author 6 of 21</span>
+            <div class="links"><a href="https://doi.org/10.1038/nature13990">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="stem-cells-epigenomics">
+      <h2 class="s-head"><span class="s-title">Stem Cells &amp; Epigenomics</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="defective-insulin-receptor-signaling-in-hpscs-skews-pluripotency-and-negatively-perturbs-neural-differentiation" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1016/j.jbc.2021.100495">Defective insulin receptor signaling in hPSCs skews pluripotency and negatively perturbs neural differentiation</a></h3>
+            <span class="pub-year">2021</span>
+          </div>
+          <p class="pub-authors">A.K.K. Teo, L. Nguyen, M.K. Gupta &hellip; <strong>W. Mallard</strong> &hellip; R.N. Kulkarni</p>
+          <p class="pub-venue"><em>Journal of Biological Chemistry</em> 296, 100495</p>
+          <div class="meta">
+            <span class="pub-role">Author 8 of 13</span>
+            <div class="links"><a href="https://doi.org/10.1016/j.jbc.2021.100495">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="targeted-disruption-of-dnmt1-dnmt3a-and-dnmt3b-in-human-embryonic-stem-cells" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/ng.3258">Targeted disruption of DNMT1, DNMT3A and DNMT3B in human embryonic stem cells</a></h3>
+            <span class="pub-year">2015</span>
+          </div>
+          <p class="pub-authors">J. Liao, R. Karnik, H. Gu &hellip; <strong>W. Mallard</strong> &hellip; A. Meissner</p>
+          <p class="pub-venue"><em>Nature Genetics</em> 47(5), 469-478</p>
+          <div class="meta">
+            <span class="pub-role">Author 14 of 18</span>
+            <div class="links"><a href="https://doi.org/10.1038/ng.3258">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="a-comparison-of-genetically-matched-cell-lines-reveals-the-equivalence-of-human-ipscs-and-escs" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/nbt.3388">A comparison of genetically matched cell lines reveals the equivalence of human iPSCs and ESCs</a></h3>
+            <span class="pub-year">2015</span>
+          </div>
+          <p class="pub-authors">J. Choi, S. Lee, <strong>W. Mallard</strong> &hellip; K. Hochedlinger</p>
+          <p class="pub-venue"><em>Nature Biotechnology</em> 33(11), 1173-1181</p>
+          <div class="meta">
+            <span class="pub-role">Author 3 of 15</span>
+            <div class="links"><a href="https://doi.org/10.1038/nbt.3388">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="long-noncoding-rnas">
+      <h2 class="s-head"><span class="s-title">Long Noncoding RNAs</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="rroid2-regulates-effector-to-memory-cd8-t-cell-differentiation-during-infection-in-vivo" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1073/pnas.2503450122">Rroid2 regulates effector-to-memory CD8+ T cell differentiation during infection in vivo</a></h3>
+            <span class="pub-year">2025</span>
+          </div>
+          <p class="pub-authors">J. Erber, C. Stecher, V. Plajer, N. Braun, <strong>W. Mallard</strong>, L.A. Goff, I. Barozzi, T. Mohr, J.L. Rinn, R.A. Flavell, D. Herndler-Brandstetter</p>
+          <p class="pub-venue"><em>PNAS</em> 122(48), e2503450122</p>
+          <div class="meta">
+            <span class="pub-role">Author 5 of 11</span>
+            <div class="links"><a href="https://doi.org/10.1073/pnas.2503450122">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="the-firre-locus-produces-a-trans-acting-rna-molecule-that-functions-in-hematopoiesis" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/s41467-019-12970-4">The Firre locus produces a trans-acting RNA molecule that functions in hematopoiesis</a></h3>
+            <span class="pub-year">2019</span>
+          </div>
+          <p class="pub-authors">J.P. Lewandowski, J.C. Lee, T. Hwang &hellip; <strong>W. Mallard</strong> &hellip; J.L. Rinn</p>
+          <p class="pub-venue"><em>Nature Communications</em> 10(1), 5137</p>
+          <div class="meta">
+            <span class="pub-role">Author 8 of 15</span>
+            <div class="links"><a href="https://doi.org/10.1038/s41467-019-12970-4">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="chromatin-environment-transcriptional-regulation-and-splicing-distinguish-lincrnas-and-mrnas" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1101/gr.214205.116">Chromatin environment, transcriptional regulation, and splicing distinguish lincRNAs and mRNAs</a></h3>
+            <span class="pub-year">2017</span>
+          </div>
+          <p class="pub-authors">M. Melé, K. Mattioli, <strong>W. Mallard</strong>, D.M. Shechner, C. Gerhardinger, J.L. Rinn</p>
+          <p class="pub-venue"><em>Genome Research</em> 27(1), 27-37</p>
+          <div class="meta">
+            <span class="pub-role">Author 3 of 6</span>
+            <div class="links"><a href="https://doi.org/10.1101/gr.214205.116">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="multiple-knockout-mouse-models-reveal-lincrnas-are-required-for-life-and-brain-development" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.7554/eLife.01749">Multiple knockout mouse models reveal lincRNAs are required for life and brain development</a></h3>
+            <span class="pub-year">2013</span>
+          </div>
+          <p class="pub-authors">M. Sauvageau, L.A. Goff, S. Lodato &hellip; <strong>W. Mallard</strong> &hellip; J.L. Rinn</p>
+          <p class="pub-venue"><em>eLife</em> 2, e01749</p>
+          <div class="meta">
+            <span class="pub-role">Author 12 of 25</span>
+            <div class="links"><a href="https://doi.org/10.7554/eLife.01749">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="cancer-genomics">
+      <h2 class="s-head"><span class="s-title">Cancer Genomics</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="comprehensive-molecular-profiling-of-lung-adenocarcinoma" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/nature13385">Comprehensive molecular profiling of lung adenocarcinoma</a></h3>
+            <span class="pub-year">2014</span>
+          </div>
+          <p class="pub-authors">The Cancer Genome Atlas Research Network</p>
+          <p class="pub-venue"><em>Nature</em> 511(7511), 543-550</p>
+          <div class="meta">
+            <span class="pub-role">TCGA Research Network &mdash; listed contributor</span>
+            <div class="links"><a href="https://doi.org/10.1038/nature13385">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="the-somatic-genomic-landscape-of-glioblastoma" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1016/j.cell.2013.09.034">The somatic genomic landscape of glioblastoma</a></h3>
+            <span class="pub-year">2013</span>
+          </div>
+          <p class="pub-authors">The Cancer Genome Atlas Research Network</p>
+          <p class="pub-venue"><em>Cell</em> 155(2), 462-477</p>
+          <div class="meta">
+            <span class="pub-role">TCGA Research Network &mdash; listed contributor</span>
+            <div class="links"><a href="https://doi.org/10.1016/j.cell.2013.09.034">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="comprehensive-molecular-characterization-of-clear-cell-renal-cell-carcinoma" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/nature12222">Comprehensive molecular characterization of clear cell renal cell carcinoma</a></h3>
+            <span class="pub-year">2013</span>
+          </div>
+          <p class="pub-authors">The Cancer Genome Atlas Research Network</p>
+          <p class="pub-venue"><em>Nature</em> 499(7456), 43-49</p>
+          <div class="meta">
+            <span class="pub-role">TCGA Research Network &mdash; listed contributor</span>
+            <div class="links"><a href="https://doi.org/10.1038/nature12222">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="integrated-genomic-characterization-of-endometrial-carcinoma" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1038/nature12113">Integrated genomic characterization of endometrial carcinoma</a></h3>
+            <span class="pub-year">2013</span>
+          </div>
+          <p class="pub-authors">The Cancer Genome Atlas Research Network</p>
+          <p class="pub-venue"><em>Nature</em> 497(7447), 67-73</p>
+          <div class="meta">
+            <span class="pub-role">TCGA Research Network &mdash; listed contributor</span>
+            <div class="links"><a href="https://doi.org/10.1038/nature12113">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="technology-development">
+      <h2 class="s-head"><span class="s-title">Technology Development</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="live-cell-mapping-of-organelle-associated-rnas-via-proximity-biotinylation-combined-with-protein-rna-crosslinking" data-themes="genomics bioinfo hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.7554/eLife.29224">Live-cell mapping of organelle-associated RNAs via proximity biotinylation combined with protein-RNA crosslinking</a></h3>
+            <span class="pub-year">2017</span>
+          </div>
+          <p class="pub-authors">P. Kaewsapsak, D.M. Shechner, <strong>W. Mallard</strong>, J.L. Rinn, A.Y. Ting</p>
+          <p class="pub-venue"><em>eLife</em> 6, e29224</p>
+          <div class="meta">
+            <span class="pub-role">Author 3 of 5</span>
+            <div class="links"><a href="https://doi.org/10.7554/eLife.29224">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="physics-astronomy-instrumentation">
+      <h2 class="s-head"><span class="s-title">Physics &amp; Astronomy Instrumentation</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="current-and-nascent-seti-instruments-in-the-radio-and-optical" data-themes="signal instrument systems" data-era="berkeley">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.2307/jj.18254198.7">Current and nascent SETI instruments in the radio and optical</a></h3>
+            <span class="pub-year">2011</span>
+          </div>
+          <p class="pub-authors">A. Siemion, H. Chen, J. Cobb &hellip; <strong>W. Mallard</strong> &hellip; D. Werthimer</p>
+          <p class="pub-venue"><em>Communication with Extraterrestrial Intelligence (CETI)</em> pp. 19-36</p>
+          <div class="meta">
+            <span class="pub-role">Author 11 of 16</span>
+            <div class="links"><a href="https://doi.org/10.2307/jj.18254198.7">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="mid-infrared-interferometry-with-high-spectral-resolution" data-themes="signal instrument systems" data-era="berkeley">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1117/12.857656">Mid-infrared interferometry with high spectral resolution</a></h3>
+            <span class="pub-year">2010</span>
+          </div>
+          <p class="pub-authors">E.H. Wishnow, <strong>W. Mallard</strong>, V. Ravi, S. Lockwood, W. Fitelson, D. Werthimer, C.H. Townes</p>
+          <p class="pub-venue"><em>Optical and Infrared Interferometry II (Proc. SPIE)</em> 7734, 773409</p>
+          <div class="meta">
+            <span class="pub-role">Author 2 of 7</span>
+            <div class="links"><a href="https://doi.org/10.1117/12.857656">DOI</a><a href="https://github.com/wjmallard/isi-digital-backend">Code</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="experimental-investigation-of-planar-ion-traps" data-themes="instrument systems" data-era="undergrad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1103/PhysRevA.73.032307">Experimental investigation of planar ion traps</a></h3>
+            <span class="pub-year">2006</span>
+          </div>
+          <p class="pub-authors">C.E. Pearson, D.R. Leibrandt, W.S. Bakr, <strong>W.J. Mallard</strong>, K.R. Brown, I.L. Chuang</p>
+          <p class="pub-venue"><em>Physical Review A</em> 73(3), 032307</p>
+          <div class="meta">
+            <span class="pub-role">Author 4 of 6</span>
+            <div class="links"><a href="https://doi.org/10.1103/PhysRevA.73.032307">DOI</a></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="pub-section" id="conference-proceedings-abstracts">
+      <h2 class="s-head"><span class="s-title">Conference Proceedings &amp; Abstracts</span></h2>
+      <div class="section-body">
+
+        <div class="pub" id="long-noncoding-rna-124-regulates-cd8-t-cell-response-to-infection" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3>Long noncoding RNA-124 regulates CD8+ T cell response to infection</h3>
+            <span class="pub-year">2024</span>
+          </div>
+          <p class="pub-authors">J. Erber, C. Stecher, V. Plajer, N. Braun, <strong>W. Mallard</strong>, L. Goff, J. Zhao, et al.</p>
+          <p class="pub-venue"><em>European Journal of Immunology</em> 54, 263</p>
+          <div class="meta">
+            <span class="pub-role">Co-author</span>
+          </div>
+        </div>
+
+        <div class="pub" id="transcriptional-signaling-centers-govern-human-erythropoiesis-and-harbor-genetic-variations-of-red-blood-cell-traits" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1182/blood-2018-99-118637">Transcriptional signaling centers govern human erythropoiesis and harbor genetic variations of red blood cell traits</a></h3>
+            <span class="pub-year">2018</span>
+          </div>
+          <p class="pub-authors">A. Choudhuri, E. Trompouki, B.J. Abraham &hellip; <strong>W. Mallard</strong> &hellip; L.I. Zon</p>
+          <p class="pub-venue"><em>Blood</em> 132(Suppl 1), 1277</p>
+          <div class="meta">
+            <span class="pub-role">Author 5 of 25</span>
+            <div class="links"><a href="https://doi.org/10.1182/blood-2018-99-118637">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="distinct-signaling-centers-define-stages-of-human-erythropoiesis-and-harbor-common-variations-of-red-blood-cell-traits" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1182/blood.V130.Suppl_1.773.773">Distinct signaling centers define stages of human erythropoiesis and harbor common variations of red blood cell traits</a></h3>
+            <span class="pub-year">2017</span>
+          </div>
+          <p class="pub-authors">A. Choudhuri, E. Trompouki, B.J. Abraham, <strong>W. Mallard</strong> &hellip; L.I. Zon</p>
+          <p class="pub-venue"><em>Blood</em> 130(Suppl 1), 773</p>
+          <div class="meta">
+            <span class="pub-role">Author 4 of 19</span>
+            <div class="links"><a href="https://doi.org/10.1182/blood.V130.Suppl_1.773.773">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="long-range-chromatin-interactions-control-trophoblast-restricted-hla-g-expression-during-pregnancy" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.4049/jimmunol.194.supp.60.7">Long-range chromatin interactions control trophoblast-restricted HLA-G expression during pregnancy</a></h3>
+            <span class="pub-year">2015</span>
+          </div>
+          <p class="pub-authors">L. Ferreira, T. Meissner, T. Mikkelsen, C. O'Donnell, R. Sherwood, <strong>W. Mallard</strong>, J. Rinn, C. Cowan, J. Strominger</p>
+          <p class="pub-venue"><em>The Journal of Immunology</em> 194(1 Suppl), 60.7</p>
+          <div class="meta">
+            <span class="pub-role">Author 6 of 9</span>
+            <div class="links"><a href="https://doi.org/10.4049/jimmunol.194.supp.60.7">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="lineage-regulators-and-signaling-transcription-factors-during-erythropoiesis" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1016/j.exphem.2014.07.239">Lineage regulators and signaling transcription factors during erythropoiesis</a></h3>
+            <span class="pub-year">2014</span>
+          </div>
+          <p class="pub-authors">A. Choudhuri, B. Abraham, <strong>W. Mallard</strong>, B. Hummel, S. Boatman, T. Bowman, A. DiBiase, J. Rinn, R. Young, L. Zon, E. Trompouki</p>
+          <p class="pub-venue"><em>Experimental Hematology</em> 42(8), S63</p>
+          <div class="meta">
+            <span class="pub-role">Author 3 of 11</span>
+            <div class="links"><a href="https://doi.org/10.1016/j.exphem.2014.07.239">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="long-non-coding-rna-expression-in-normal-and-leukemic-human-blood-samples" data-themes="genomics hpc" data-era="broad">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1016/j.exphem.2014.07.166">Long non-coding RNA expression in normal and leukemic human blood samples</a></h3>
+            <span class="pub-year">2014</span>
+          </div>
+          <p class="pub-authors">B. Lehnertz, G. Boucher, <strong>W. Mallard</strong>, P. Gendron, J. Hebert, S. Lemieux, J. Rinn, G. Sauvageau</p>
+          <p class="pub-venue"><em>Experimental Hematology</em> 42(8), S45</p>
+          <div class="meta">
+            <span class="pub-role">Author 3 of 8</span>
+            <div class="links"><a href="https://doi.org/10.1016/j.exphem.2014.07.166">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="developments-in-the-radio-search-for-extraterrestrial-intelligence" data-themes="signal instrument systems" data-era="berkeley">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1109/ursigass.2011.6051263">Developments in the radio search for extraterrestrial intelligence</a></h3>
+            <span class="pub-year">2011</span>
+          </div>
+          <p class="pub-authors">A.P.V. Siemion, D. Werthimer, D. Anderson &hellip; <strong>W. Mallard</strong> &hellip; M. Wagner</p>
+          <p class="pub-venue"><em>URSI General Assembly and Scientific Symposium</em> pp. 1-4</p>
+          <div class="meta">
+            <span class="pub-role">Author 13 of 15</span>
+            <div class="links"><a href="https://doi.org/10.1109/ursigass.2011.6051263">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="advanced-multi-beam-spectrometer-for-the-green-bank-telescope" data-themes="signal instrument systems" data-era="berkeley">
+          <div class="pub-head">
+            <h3><a href="https://doi.org/10.1109/ursigass.2011.6051280">Advanced multi-beam spectrometer for the Green Bank Telescope</a></h3>
+            <span class="pub-year">2011</span>
+          </div>
+          <p class="pub-authors">D.A. Roshi, M. Bloss, P. Brandt &hellip; <strong>W. Mallard</strong> &hellip; M. Whitehead</p>
+          <p class="pub-venue"><em>URSI General Assembly and Scientific Symposium</em></p>
+          <div class="meta">
+            <span class="pub-role">Author 15 of 27</span>
+            <div class="links"><a href="https://doi.org/10.1109/ursigass.2011.6051280">DOI</a></div>
+          </div>
+        </div>
+
+        <div class="pub" id="wideband-fpga-spectrometers-and-correlators" data-themes="signal instrument systems" data-era="berkeley">
+          <div class="pub-head">
+            <h3>Wideband FPGA spectrometers and correlators</h3>
+            <span class="pub-year">2009</span>
+          </div>
+          <p class="pub-authors">T. Filiba, H. Chen, S. Gowda, <strong>W. Mallard</strong>, J. Manley, P. McMahon, A. Siemion, L. Spitler, M. Wagner, D. Werthimer</p>
+          <p class="pub-venue"><em>USNC/URSI National Radio Science Meeting</em> p. 32</p>
+          <div class="meta">
+            <span class="pub-role">Author 4 of 10</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Two-dimensional filter: era (row 1) and skill (row 2), combined with AND.
+    // Each row is single-select with its own "All". Sections (and their jump-nav
+    // links) left with no visible entry are hidden. An inbound ?era=/?skill=
+    // query -- e.g. a link from the Portfolio page -- is applied on load.
+    const chips = document.querySelectorAll('.chip');
+    const pubs = document.querySelectorAll('.pub');
+    const sections = document.querySelectorAll('section.pub-section');
+    const navLinks = document.querySelectorAll('.toc a');
+    const navLinkFor = id => document.querySelector('.toc a[data-sec="' + id + '"]');
+    const statusEl = document.querySelector('.filter-status');
+    const statusTextEl = document.querySelector('.filter-status-text');
+    const countEl = document.querySelector('.filter-count');
+    const chipLabel = (dim, val) => {
+      const c = document.querySelector('.chip[data-dim="' + dim + '"][data-val="' + val + '"]');
+      return c ? c.textContent : val;
+    };
+
+    const active = { era: 'all', skill: 'all' };
+
+    function apply() {
+      pubs.forEach(p => {
+        const okEra = active.era === 'all' || p.dataset.era === active.era;
+        const okSkill = active.skill === 'all'
+          || (p.dataset.themes || '').split(' ').includes(active.skill);
+        p.style.display = (okEra && okSkill) ? '' : 'none';
+      });
+      sections.forEach(s => {
+        const cards = [...s.querySelectorAll('.pub')];
+        const vis = cards.filter(p => p.style.display !== 'none');
+        s.style.display = vis.length ? '' : 'none';
+        const link = navLinkFor(s.id);
+        if (link) link.style.display = vis.length ? '' : 'none';
+        // Drop the divider on the last entry still visible in this section.
+        cards.forEach(p => p.classList.toggle('no-divider', p === vis[vis.length - 1]));
+      });
+      // "Showing 29 entries" while everything is visible, "Showing 12 of 29
+      // entries" once something is hidden. Counts every entry, not just journal
+      // papers: the thesis and the proceedings are in there too.
+      const shown = [...pubs].filter(p => p.style.display !== 'none').length;
+      const total = pubs.length;
+      const noun = total === 1 ? 'entry' : 'entries';
+      countEl.textContent = shown === total
+        ? `Showing ${total} ${noun}`
+        : `Showing ${shown} of ${total} ${noun}`;
+      // Reflect the active filter in the status banner (the only cue on mobile).
+      const labels = [];
+      if (active.era !== 'all') labels.push(chipLabel('era', active.era));
+      if (active.skill !== 'all') labels.push(chipLabel('skill', active.skill));
+      statusTextEl.textContent = labels.join(' · ');
+      statusEl.classList.toggle('on', labels.length > 0);
+    }
+
+    function select(dim, val) {
+      active[dim] = val;
+      chips.forEach(c => {
+        if (c.dataset.dim === dim) c.classList.toggle('active', c.dataset.val === val);
+      });
+      apply();
+    }
+
+    chips.forEach(chip => chip.addEventListener('click',
+      () => select(chip.dataset.dim, chip.dataset.val)));
+
+    document.querySelector('.filter-clear').addEventListener('click', () => {
+      select('era', 'all');
+      select('skill', 'all');
+    });
+
+    // Apply any ?era=/?skill= filter from the URL on load.
+    const params = new URLSearchParams(location.search);
+    ['era', 'skill'].forEach(dim => {
+      const val = params.get(dim);
+      if (val && [...chips].some(c => c.dataset.dim === dim && c.dataset.val === val)) {
+        select(dim, val);
+      }
+    });
+
+    // Scroll-spy: highlight the jump-nav link for the section now in view.
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = navLinkFor(entry.target.id);
+        if (link) link.classList.add('active');
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+    sections.forEach(s => spy.observe(s));
+
+    apply();
+  </script>
+</body>
+</html>
