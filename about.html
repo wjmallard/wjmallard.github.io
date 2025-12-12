@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .wrap {
+      padding-top: 1em;
+    }
+    .back {
+      margin-bottom: 1.25rem;
+    }
+    .portrait {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 1.75em;
+      filter: grayscale(15%);
+    }
+    article h1 {
+      margin: 0 0 0.5em;
+    }
+    article p {
+      text-align: justify;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+    }
+  </style>
+  <script data-goatcounter="https://stats.wjmallard.net/count"
+          async src="//stats.wjmallard.net/count.js"></script>
+  <!-- Cloudflare Web Analytics -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "54550e8e9a894ac39ad39a0cddef869d"}'></script>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← Home</a>
+    <img class="portrait" src="portrait.jpg"
+         alt="William Mallard, Ph.D." onerror="this.style.display='none'">
+    <article>
+      <h1>William Mallard, Ph.D.</h1>
+      <p>I am a biologist and engineer with two decades of experience working across hardware, software, and the lab bench. I hold a PhD in Biochemistry from Harvard University, and a BSc in Engineering Physics from UC Berkeley, with minors in Computer Science and Mathematics.</p>
+      <p>I work on computational biology for target discovery &mdash; integrating structure, omics, and imaging to find and prioritize targets, and to trace how they work from molecule to phenotype. I also build high-performance computational systems to make that integration work at scale.</p>
+      <h2>PhD: Structural &amp; Cell Biology</h2>
+      <p><a href="portfolio.html?era=phd">PhD projects →</a></p>
+      <p>My research focused on the disordered tail of FtsZ, the protein that builds the bacterial division ring. I combined structural modeling, protein biophysics, and live-cell microscopy to uncover a novel phospho-switch: FtsZ's disordered tail binds its folded core on a polymerization surface, and phosphorylation of the tail disrupts this binding &mdash; encouraging FtsZ polymerization and shortening cells.</p>
+      <p>I predicted the tail-core interaction computationally, generating 5,000 AlphaFold-Multimer structures and clustering their contact maps to identify binding modes. I tested these predictions at the bench via NMR and ITC, and then mapped the structural mechanism by which phosphorylation disrupts binding.</p>
+      <p>I then traced the effects of binding disruption across scales &mdash; from residues to filaments to cells. I developed an <em>in vitro</em> assay to measure changes in FtsZ polymerization, and I designed microscopy experiments and computer vision pipelines to quantify the impact on cell size.</p>
+      <h2>Broad: Genomics &amp; Infrastructure</h2>
+      <p><a href="portfolio.html?era=broad">Broad projects →</a></p>
+      <p>Before my PhD, I spent four years at the Broad Institute. I started as a software engineer in the Cancer Genome Atlas, where I helped keep a production genomics platform running across tens of thousands of tumor samples. I triaged pipeline failures and rewrote memory-intensive R scripts into streaming Python. At one point, I traced one such failure to an issue in the Python standard library and contributed an upstream fix to CPython.</p>
+      <p>I then worked as a computational biologist in the Rinn Lab. I built custom pipelines for more than twenty genomics projects &mdash; using RNA-seq, ChIP-seq, ATAC-seq, and bisulfite sequencing to measure changes in expression, transcription factor binding, histone modification, and chromatin compaction. I contributed to thirteen papers on lncRNAs, stem-cell biology, and developmental epigenetics.</p>
+      <h2>Berkeley: Signal Processing &amp; Astronomy</h2>
+      <p><a href="portfolio.html?era=berkeley">Berkeley projects →</a></p>
+      <p>Before the Broad, I was a systems engineer at Berkeley building real-time signal-processing systems for radio telescopes. I started in CASPER, where I contributed DSP blocks to an open-source FPGA toolkit. I also wrote a 10 Gbps network receiver used in the transport layer of the Square Kilometre Array, and I helped build and deploy a spectrometer at Arecibo Observatory.</p>
+      <p>In the Townes Lab, I then built a digital correlator for an infrared telescope array used to image the dust shell of Betelgeuse. The system spec demanded clocking the FPGAs at nearly double the rate of any prior CASPER design. To achieve this, I refactored all FFT arithmetic onto hardened DSP48E blocks and hand-guided logic placement on an FPGA fabric packed to near-full capacity. I built the instrument end-to-end and deployed it at Mount Wilson Observatory.</p>
+      <h2>College: Instrumentation &amp; Networking</h2>
+      <p><a href="portfolio.html?era=college">College projects →</a></p>
+      <p>I started building physics instrumentation in college. I wrote a control system for a helium dilution fridge cooling bolometers to sub-kelvin temperatures for experimental cosmologists. I also built a pulse sequencer to shuttle particles around a planar ion trap for quantum computing.</p>
+      <p>In parallel, I fell in with the systems crowd at Berkeley, learning networking and Linux sysadmin from housemates. For three years, I ran the network in my 125-person student co-op, pulling cable, building servers, and tuning firewall and QoS rules. This steered me to CS systems coursework, and to a stint as a sysadmin for Berkeley's HPC cluster. After college, I briefly worked for a startup writing network software.</p>
+    </article>
+  </div>
+</body>
+</html>
