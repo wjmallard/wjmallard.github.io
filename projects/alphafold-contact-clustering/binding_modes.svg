@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1181" viewBox="0 0 1800 1181">
+<rect width="1800" height="1181" fill="#fafafa"/>
+<rect x="130.0" y="100.0" width="374.5" height="576.2" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="130.0" y="693.4" width="374.5" height="403.3" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="247.5" y="131.1" width="24.2" height="24.2" fill="#cadef5"/>
+<rect x="362.8" y="131.1" width="24.2" height="24.2" fill="#174276"/>
+<rect x="362.8" y="159.9" width="24.2" height="24.2" fill="#174377"/>
+<rect x="247.5" y="188.7" width="24.2" height="24.2" fill="#2363b1"/>
+<rect x="362.8" y="188.7" width="24.2" height="24.2" fill="#174276"/>
+<rect x="391.6" y="217.5" width="24.2" height="24.2" fill="#194881"/>
+<rect x="305.2" y="275.2" width="24.2" height="24.2" fill="#c9dcf5"/>
+<rect x="305.2" y="304.0" width="24.2" height="24.2" fill="#2261ad"/>
+<rect x="305.2" y="332.8" width="24.2" height="24.2" fill="#bad3f2"/>
+<rect x="305.2" y="361.6" width="24.2" height="24.2" fill="#2974d0"/>
+<rect x="247.5" y="390.4" width="24.2" height="24.2" fill="#a2c4ed"/>
+<rect x="161.1" y="419.2" width="24.2" height="24.2" fill="#bad3f2"/>
+<rect x="218.7" y="419.2" width="24.2" height="24.2" fill="#7eade6"/>
+<rect x="305.2" y="419.2" width="24.2" height="24.2" fill="#b4cff1"/>
+<rect x="247.5" y="448.0" width="24.2" height="24.2" fill="#1c5090"/>
+<rect x="362.8" y="448.0" width="24.2" height="24.2" fill="#bdd5f2"/>
+<rect x="247.5" y="476.8" width="24.2" height="24.2" fill="#194881"/>
+<rect x="189.9" y="505.6" width="24.2" height="24.2" fill="#8bb5e9"/>
+<rect x="247.5" y="505.6" width="24.2" height="24.2" fill="#1b4e8c"/>
+<rect x="218.7" y="534.4" width="24.2" height="24.2" fill="#1d5394"/>
+<rect x="276.3" y="534.4" width="24.2" height="24.2" fill="#215faa"/>
+<rect x="305.2" y="534.4" width="24.2" height="24.2" fill="#c2d8f3"/>
+<rect x="247.5" y="563.2" width="24.2" height="24.2" fill="#1a4c87"/>
+<rect x="362.8" y="563.2" width="24.2" height="24.2" fill="#2872cb"/>
+<rect x="247.5" y="592.0" width="24.2" height="24.2" fill="#2468ba"/>
+<rect x="161.1" y="620.8" width="24.2" height="24.2" fill="#b9d2f2"/>
+<rect x="218.7" y="620.8" width="24.2" height="24.2" fill="#b8d2f1"/>
+<rect x="218.7" y="649.7" width="24.2" height="24.2" fill="#caddf5"/>
+<rect x="276.3" y="649.7" width="24.2" height="24.2" fill="#2a78d6"/>
+<rect x="449.2" y="811.0" width="24.2" height="24.2" fill="#174276"/>
+<rect x="478.0" y="811.0" width="24.2" height="24.2" fill="#bdd5f2"/>
+<rect x="130.0" y="31" width="28" height="28" rx="4" fill="#2a78d6"/>
+<text x="172.0" y="56.0" font-family='Charter, Georgia, "Times New Roman", serif' font-size="36" fill="#444" text-anchor="start" font-weight="normal" >1,000 models</text>
+<text x="94.0" y="388.1" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal" transform="rotate(-90 94.0 388.1)">core 276–295</text>
+<text x="94.0" y="895.1" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal" transform="rotate(-90 94.0 895.1)">core 204–217</text>
+<text x="317.2" y="1146.7" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal" >tail 326–338</text>
+<rect x="548.5" y="100.0" width="374.5" height="576.2" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="548.5" y="693.4" width="374.5" height="403.3" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="666.0" y="131.1" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="781.3" y="131.1" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="781.3" y="159.9" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="666.0" y="188.7" width="24.2" height="24.2" fill="#82391d"/>
+<rect x="781.3" y="188.7" width="24.2" height="24.2" fill="#f3a485"/>
+<rect x="579.6" y="419.2" width="24.2" height="24.2" fill="#f08e66"/>
+<rect x="608.4" y="448.0" width="24.2" height="24.2" fill="#f4ae91"/>
+<rect x="666.0" y="448.0" width="24.2" height="24.2" fill="#833a1d"/>
+<rect x="579.6" y="534.4" width="24.2" height="24.2" fill="#883c1f"/>
+<rect x="666.0" y="563.2" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="579.6" y="620.8" width="24.2" height="24.2" fill="#f8c8b5"/>
+<rect x="752.5" y="811.0" width="24.2" height="24.2" fill="#fadacd"/>
+<rect x="810.1" y="811.0" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="867.7" y="811.0" width="24.2" height="24.2" fill="#fad6c7"/>
+<rect x="810.1" y="897.4" width="24.2" height="24.2" fill="#863b1e"/>
+<rect x="838.9" y="897.4" width="24.2" height="24.2" fill="#fad9cb"/>
+<rect x="867.7" y="897.4" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="781.3" y="926.2" width="24.2" height="24.2" fill="#82391d"/>
+<rect x="838.9" y="955.0" width="24.2" height="24.2" fill="#81391d"/>
+<rect x="867.7" y="955.0" width="24.2" height="24.2" fill="#f8c6b2"/>
+<rect x="896.5" y="955.0" width="24.2" height="24.2" fill="#a54925"/>
+<rect x="781.3" y="983.8" width="24.2" height="24.2" fill="#f9d0c0"/>
+<rect x="896.5" y="1041.4" width="24.2" height="24.2" fill="#f8c5b0"/>
+<rect x="548.5" y="31" width="28" height="28" rx="4" fill="#eb6834"/>
+<text x="590.5" y="56.0" font-family='Charter, Georgia, "Times New Roman", serif' font-size="36" fill="#444" text-anchor="start" font-weight="normal" >1,000 models</text>
+<rect x="967.0" y="100.0" width="374.5" height="576.2" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="967.0" y="693.4" width="374.5" height="403.3" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="1199.8" y="131.1" width="24.2" height="24.2" fill="#0f6043"/>
+<rect x="1199.8" y="159.9" width="24.2" height="24.2" fill="#0f6043"/>
+<rect x="1084.5" y="188.7" width="24.2" height="24.2" fill="#106547"/>
+<rect x="1199.8" y="188.7" width="24.2" height="24.2" fill="#0f6043"/>
+<rect x="1084.5" y="246.3" width="24.2" height="24.2" fill="#1fb07c"/>
+<rect x="998.1" y="419.2" width="24.2" height="24.2" fill="#0f6043"/>
+<rect x="1084.5" y="448.0" width="24.2" height="24.2" fill="#0f6043"/>
+<rect x="1084.5" y="563.2" width="24.2" height="24.2" fill="#48bf94"/>
+<rect x="1228.6" y="811.0" width="24.2" height="24.2" fill="#96dac2"/>
+<rect x="1286.2" y="811.0" width="24.2" height="24.2" fill="#137c56"/>
+<rect x="1286.2" y="897.4" width="24.2" height="24.2" fill="#106849"/>
+<rect x="1286.2" y="955.0" width="24.2" height="24.2" fill="#4fc199"/>
+<rect x="967.0" y="31" width="28" height="28" rx="4" fill="#1baf7a"/>
+<text x="1009.0" y="56.0" font-family='Charter, Georgia, "Times New Roman", serif' font-size="36" fill="#444" text-anchor="start" font-weight="normal" >1,001 models</text>
+<rect x="1385.5" y="100.0" width="374.5" height="576.2" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="1385.5" y="693.4" width="374.5" height="403.3" fill="#ffffff" fill-opacity="1" stroke="#cccccc" stroke-opacity="1" stroke-width="2"/>
+<rect x="1503.0" y="131.1" width="24.2" height="24.2" fill="#f7d794"/>
+<rect x="1618.3" y="131.1" width="24.2" height="24.2" fill="#ac7500"/>
+<rect x="1618.3" y="159.9" width="24.2" height="24.2" fill="#835a00"/>
+<rect x="1503.0" y="188.7" width="24.2" height="24.2" fill="#835a00"/>
+<rect x="1618.3" y="188.7" width="24.2" height="24.2" fill="#8f6100"/>
+<rect x="1560.7" y="217.5" width="24.2" height="24.2" fill="#f9e1ae"/>
+<rect x="1589.5" y="217.5" width="24.2" height="24.2" fill="#e19900"/>
+<rect x="1647.1" y="217.5" width="24.2" height="24.2" fill="#f9e1ad"/>
+<rect x="1503.0" y="246.3" width="24.2" height="24.2" fill="#b57c00"/>
+<rect x="1560.7" y="275.2" width="24.2" height="24.2" fill="#f9dfa8"/>
+<rect x="1560.7" y="304.0" width="24.2" height="24.2" fill="#906300"/>
+<rect x="1416.6" y="419.2" width="24.2" height="24.2" fill="#835a00"/>
+<rect x="1445.4" y="448.0" width="24.2" height="24.2" fill="#b27a00"/>
+<rect x="1503.0" y="448.0" width="24.2" height="24.2" fill="#825900"/>
+<rect x="1503.0" y="476.8" width="24.2" height="24.2" fill="#936500"/>
+<rect x="1474.2" y="534.4" width="24.2" height="24.2" fill="#875c00"/>
+<rect x="1531.8" y="534.4" width="24.2" height="24.2" fill="#fae6bb"/>
+<rect x="1503.0" y="563.2" width="24.2" height="24.2" fill="#d39000"/>
+<rect x="1474.2" y="649.7" width="24.2" height="24.2" fill="#f6d285"/>
+<rect x="1531.8" y="649.7" width="24.2" height="24.2" fill="#a97300"/>
+<rect x="1618.3" y="695.7" width="24.2" height="24.2" fill="#f7d690"/>
+<rect x="1647.1" y="724.6" width="24.2" height="24.2" fill="#a26f00"/>
+<rect x="1647.1" y="811.0" width="24.2" height="24.2" fill="#835a00"/>
+<rect x="1704.7" y="811.0" width="24.2" height="24.2" fill="#eea915"/>
+<rect x="1704.7" y="897.4" width="24.2" height="24.2" fill="#835a00"/>
+<rect x="1618.3" y="926.2" width="24.2" height="24.2" fill="#f6cf7e"/>
+<rect x="1675.9" y="955.0" width="24.2" height="24.2" fill="#fae4b6"/>
+<rect x="1704.7" y="955.0" width="24.2" height="24.2" fill="#f6cf7c"/>
+<rect x="1733.5" y="955.0" width="24.2" height="24.2" fill="#fae5b9"/>
+<rect x="1385.5" y="31" width="28" height="28" rx="4" fill="#eda100"/>
+<text x="1427.5" y="56.0" font-family='Charter, Georgia, "Times New Roman", serif' font-size="36" fill="#444" text-anchor="start" font-weight="normal" >999 models</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#fafafa"/>
+<line x1="330" y1="641" x2="1540" y2="641" stroke="#e2e2e2" stroke-width="2"/>
+<text x="306" y="655.1111111111111" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#777" text-anchor="end" font-weight="normal">20</text>
+<line x1="330" y1="492" x2="1540" y2="492" stroke="#e2e2e2" stroke-width="2"/>
+<text x="306" y="506.22222222222223" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#777" text-anchor="end" font-weight="normal">40</text>
+<line x1="330" y1="343" x2="1540" y2="343" stroke="#e2e2e2" stroke-width="2"/>
+<text x="306" y="357.33333333333337" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#777" text-anchor="end" font-weight="normal">60</text>
+<line x1="330" y1="194" x2="1540" y2="194" stroke="#e2e2e2" stroke-width="2"/>
+<text x="306" y="208.44444444444446" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#777" text-anchor="end" font-weight="normal">80</text>
+<line x1="330" y1="790" x2="1540" y2="790" stroke="#c4c4c4" stroke-width="3"/>
+<text x="306" y="90" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#777" text-anchor="end" font-weight="normal">M spectra / s</text>
+<path d="M382.8333333333333,790 V560.0555555555555 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="430.8333333333333" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.1</text>
+<text x="430.8333333333333" y="526.0555555555555" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#444" text-anchor="middle" font-weight="normal">32.5</text>
+<path d="M584.5,790 V544.4222222222222 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="632.5" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.2</text>
+<path d="M786.1666666666666,790 V506.4555555555556 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="834.1666666666666" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.3</text>
+<path d="M987.8333333333334,790 V384.3666666666667 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="1035.8333333333335" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.4</text>
+<path d="M1189.4999999999998,790 V204.21111111111122 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="1237.4999999999998" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.5</text>
+<text x="1237.4999999999998" y="170.21111111111122" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#444" text-anchor="middle" font-weight="normal">80.3</text>
+<path d="M1391.1666666666665,790 V282.37777777777774 a12,12 0 0 1 12,-12 h72 a12,12 0 0 1 12,12 V790 Z" fill="#2a78d6"/>
+<text x="1439.1666666666665" y="846" font-family='Charter, Georgia, "Times New Roman", serif' font-size="44" fill="#444" text-anchor="middle" font-weight="normal">v0.6</text>
+<text x="1439.1666666666665" y="248.37777777777774" font-family='Charter, Georgia, "Times New Roman", serif' font-size="40" fill="#444" text-anchor="middle" font-weight="normal">69.8</text>
+<line x1="330" y1="455" x2="1540" y2="455" stroke="#444" stroke-width="4"/>
+<text x="346" y="437.0" font-family='Charter, Georgia, "Times New Roman", serif' font-size="42" fill="#444" text-anchor="start" font-weight="normal">Virtex-5 FPGA, 45.0</text>
+<text x="430.8333333333333" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">naive</text>
+<text x="430.8333333333333" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">port</text>
+<text x="632.5" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">unpack</text>
+<text x="632.5" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">moved</text>
+<text x="834.1666666666666" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">tiled</text>
+<text x="834.1666666666666" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">transpose</text>
+<text x="1035.8333333333333" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">coalesced</text>
+<text x="1035.8333333333333" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">writes</text>
+<text x="1237.4999999999998" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">pinned host</text>
+<text x="1237.4999999999998" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">memory</text>
+<text x="1439.1666666666665" y="908" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">N antennas</text>
+<text x="1439.1666666666665" y="944" font-family='Charter, Georgia, "Times New Roman", serif' font-size="30" fill="#777" text-anchor="middle" font-weight="normal">generalized</text>
+</svg>
